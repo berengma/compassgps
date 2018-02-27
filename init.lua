@@ -29,7 +29,7 @@ end
 local hud_default_x=0.4
 local hud_default_y=0.01
 local hud_default_color="FFFF00"
-local compass_default_type="c"
+local compass_default_type="b"
 local compass_valid_types={"a","b","c"}
 local activewidth=8 --until I can find some way to get it from minetest
 local max_shared=10 --how many shared bookmarks a user with shared_bookmarks priv can make.
@@ -1043,22 +1043,12 @@ minetest.register_globalstep(function(dtime)
       target=point_to[playername] --just to take up less space
       pos = player:getpos()
       dir = player:get_look_horizontal()
-      local angle_north = math.deg(math.atan2(target.x - pos.x, target.z - pos.z))
+      local angle_north = 0--math.deg(math.atan2(target.x - pos.x, target.z - pos.z))
       if angle_north < 0 then angle_north = angle_north + 360 end
       local angle_dir = 90 - math.deg(dir)
       local angle_relative = (angle_north - angle_dir) % 360
-      local compass_image = math.floor((angle_relative/30) + 0.5)%12
+      local compass_image = 0 --math.floor((angle_relative/30) + 0.5)%12
 
-
-      --update compass image to point at target
-      if wielded then
-        player:set_wielded_item("compassgps:"..
-            compassgps.compass_type_name(playername,compass_image))
-      elseif activeinv then
-        --player:get_inventory():remove_item("main", activeinv:get_name())
-        player:get_inventory():set_stack("main",stackidx,"compassgps:"..
-            compassgps.compass_type_name(playername,compass_image))
-      end --if wielded elsif activin
 
 
       --update the hud with playerpos -> target pos : distance to target
@@ -1295,8 +1285,8 @@ for i=1,12 do
     --print("registering compassgps:"..ctypename.." img="..img)
     minetest.register_tool("compassgps:"..ctypename, {
       description = S("compassgps"),
-      inventory_image = img,
-      wield_image = img, --.."^[transformR90"  didn't work
+      inventory_image = "compass_c0.png",--img,
+      wield_image = "compass_c0.png", --img, --.."^[transformR90"  didn't work
       on_use = function (itemstack, user, pointed_thing)
           local name = user:get_player_name()
           if (name ~= "") then
