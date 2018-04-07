@@ -1208,7 +1208,7 @@ function compassgps.get_compassgps_formspec(name)
   else player_privs = minetest.get_player_privs(name)
   end
   local telebutton=""
-  if player_privs["gps_teleport"] then
+  if player_privs["gps_teleport"] or player_privs["teleport"] then
     telebutton="button[6,9.3;3,1;teleport;"..S("teleport to bookmark").."]"
   end
   local sharedbutton=""
