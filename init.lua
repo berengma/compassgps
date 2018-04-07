@@ -644,7 +644,7 @@ end --clean_string
 
 
 
-function compassgps.set_bookmark(playername, bkmrkname, type, predefinedpos)
+function compassgps.set_bookmark(playername, bkmrkname, type, predefinedpos, imported)
 	local player = minetest.get_player_by_name(playername)
 	if not player then
 		return
@@ -683,6 +683,8 @@ function compassgps.set_bookmark(playername, bkmrkname, type, predefinedpos)
 
   pos.bkmrkname=bkmrkname
   pos.player=playername
+  if imported then pos.import = true end
+  
 
 	bookmarks[playername..bkmrkname] = pos
 
@@ -826,7 +828,18 @@ function compassgps.teleport_bookmark(playername, bkmrkidx)
       compassgps.bookmark_name_string(textlist_bkmrks[playername][bkmrkidx])))
 	minetest.chat_send_player(playername, S("Teleporting to %s"):format(
       compassgps.bookmark_name_string(textlist_bkmrks[playername][bkmrkidx])))
-  player:setpos(textlist_bkmrks[playername][bkmrkidx])
+      local bkmrkname = compassgps.bookmark_name_string(textlist_bkmrks[playername][bkmrkidx])
+      pos = bookmarks[playername..bkmrkname]
+      --minetest.chat_send_all(dump(pos))
+      if not pos.import then
+	
+	  player:setpos(textlist_bkmrks[playername][bkmrkidx])
+	  
+      else
+	
+	  minetest.chat_send_player(playername, S(">>> Sorry, but you can not teleport to imported coordinates <<<"))
+	  
+      end
 end --teleport_bookmark
 
 
