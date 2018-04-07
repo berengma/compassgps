@@ -42,6 +42,8 @@ minetest.register_privilege("shared_bookmarks",
 --minetest.register_privilege("shared_bookmarks", {
 --	description = "Can create shared bookmarks for use by anyone with a compassgps",
 --	give_to_singleplayer = false,})
+minetest.register_privilege("gps_teleport",
+  S("Can use the teleport button in compassgps"))
 
 compassgps = { }
 local player_hud = { };
@@ -1206,7 +1208,7 @@ function compassgps.get_compassgps_formspec(name)
   else player_privs = minetest.get_player_privs(name)
   end
   local telebutton=""
-  if player_privs["teleport"] then
+  if player_privs["gps_teleport"] then
     telebutton="button[6,9.3;3,1;teleport;"..S("teleport to bookmark").."]"
   end
   local sharedbutton=""
