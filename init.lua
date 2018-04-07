@@ -830,7 +830,10 @@ function compassgps.teleport_bookmark(playername, bkmrkidx)
       compassgps.bookmark_name_string(textlist_bkmrks[playername][bkmrkidx])))
       local bkmrkname = compassgps.bookmark_name_string(textlist_bkmrks[playername][bkmrkidx])
       pos = bookmarks[playername..bkmrkname]
-      --minetest.chat_send_all(dump(pos))
+      
+  minetest.chat_send_all(dump(pos))
+  
+  if pos then
       if not pos.import then
 	
 	  player:setpos(textlist_bkmrks[playername][bkmrkidx])
@@ -840,6 +843,13 @@ function compassgps.teleport_bookmark(playername, bkmrkidx)
 	  minetest.chat_send_player(playername, S(">>> Sorry, but you can not teleport to imported coordinates <<<"))
 	  
       end
+  
+  else
+  
+    player:setpos(textlist_bkmrks[playername][bkmrkidx])
+  
+  end 
+	
 end --teleport_bookmark
 
 
@@ -903,7 +913,7 @@ local last_time_spawns_read = "default"
 local beds_spawns = {}
 local sethome_spawns = {}
 function read_spawns()
-	-- read BlockMen beds-mod positions (added to default minetest game)
+	-- read BlockMen beds-mod positions (added to default minetest game)if pos.import == nil then pos.import = false end
 	local beds_file = io.open(minetest.get_worldpath().."/beds_spawns", "r")
 	if beds_file then
 		while true do
@@ -967,7 +977,7 @@ function compassgps.get_default_bookmark(name,num)
 	local pos = beds_spawns[name]
 	local posname="bed"
 	if pos~=nil and num==1 then
-	   default_bookmark={x=pos.x,y=pos.y,z=pos.z,player=name,type="P",bkmrkname=posname}
+	   default_bookmark={x=pos.x,y=pos.y,z=pos.z,player=name,type="P",bkmrkname=posname,false}
 	   return default_bookmark
 	elseif pos~=nil then
 	   num=num-1
@@ -976,7 +986,7 @@ function compassgps.get_default_bookmark(name,num)
 	pos = sethome_spawns[name]
 	posname="home"
 	if pos~=nil and num==1 then
-  	   default_bookmark={x=pos.x,y=pos.y,z=pos.z,player=name,type="P",bkmrkname=posname}
+  	   default_bookmark={x=pos.x,y=pos.y,z=pos.z,player=name,type="P",bkmrkname=posname,false}
 	   return default_bookmark
 	elseif pos~=nil then
 	   num=num-1
@@ -988,7 +998,7 @@ function compassgps.get_default_bookmark(name,num)
 	-- fallback to default
 	pos = default_spawn;
 	posname="spawn"
-	default_bookmark={x=pos.x,y=pos.y,z=pos.z,player=name,type="P",bkmrkname=posname}
+	default_bookmark={x=pos.x,y=pos.y,z=pos.z,player=name,type="P",bkmrkname=posname,false}
 	return default_bookmark
 end --get_default_bookmark
 
@@ -1006,7 +1016,7 @@ function compassgps.get_default_pos_and_name(name)
 		pos = default_spawn;
     posname="default"
 	end
-default_bookmark={x=pos.x,y=pos.y,z=pos.z,player=name,type="P"}
+default_bookmark={x=pos.x,y=pos.y,z=pos.z,player=name,type="P",false}
 return pos,posname
 end --get_compassgps_target_pos
 
