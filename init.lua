@@ -831,7 +831,7 @@ function compassgps.teleport_bookmark(playername, bkmrkidx)
       local bkmrkname = compassgps.bookmark_name_string(textlist_bkmrks[playername][bkmrkidx])
       pos = bookmarks[playername..bkmrkname]
       
-  minetest.chat_send_all(dump(pos))
+ -- minetest.chat_send_all(dump(pos))
   
   if pos then
       if not pos.import then
