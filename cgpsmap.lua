@@ -112,6 +112,7 @@ minetest.register_craftitem("compassgps:cgpsmap_marked", {
 		return nil
 	end,
 
+	--[[
 	on_place = function(itemstack, placer, pointed_thing)
 		if pointed_thing.type=="node" and pointed_thing.above then
 			local pos=pointed_thing.above
@@ -170,7 +171,7 @@ minetest.register_craftitem("compassgps:cgpsmap_marked", {
 			end
 		end
 		return itemstack
-	end,
+	end,]]
 })
 
 minetest.register_node("compassgps:cgpsmap_wall",{
@@ -229,6 +230,7 @@ minetest.register_entity("compassgps:cgpsmap_item",{
 	textures={"compassgps:cgpsmap_marked"},
 })
 
+--[[
 minetest.register_abm({
 	nodenames = { "compassgps:cgpsmap_wall" },
 	interval = 600,
@@ -280,6 +282,7 @@ minetest.register_abm({
 
 	end
 })
+]]
 
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
@@ -330,6 +333,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			local playername = player:get_player_name()
 			--print(bkmrkname)
 			compassgps.set_bookmark(playername, bkmrkname, "P", pos, true)
+			player:set_wielded_item("")
 		end
 	end
 
