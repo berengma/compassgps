@@ -26,8 +26,8 @@ else
   S = function ( s ) return s end
 end
 
-local hud_default_x=0.4
-local hud_default_y=0.01
+local hud_default_x=0.8
+local hud_default_y=0.96
 local hud_default_color="FFFF00"
 local compass_default_type="b"
 local compass_valid_types={"a","b","c"}
@@ -184,6 +184,9 @@ for name,stng in pairs(settings) do
   end
   if settings[name].hud_pos then
     hud_pos[name]=settings[name].hud_pos
+  else
+    hud_pos[playername].x=0.8
+    hud_pos[playername].y=0.96
   end
   if settings[name].hud_color then
     hud_color[name]=settings[name].hud_color
@@ -277,6 +280,7 @@ function compassgps.bookmark_loop(mode,playername,findidx)
   local list=""
   local bkmrkidx=1
   local i=1
+  local noidx = false
   if mode=="L" or mode=="M" then
     local spawnbkmrk=compassgps.get_default_bookmark(playername,1)
     textlist_bkmrks[playername]={}
@@ -287,7 +291,9 @@ function compassgps.bookmark_loop(mode,playername,findidx)
       textlist_bkmrks[playername][1]={x=cpos.x,y=cpos.y,z=cpos.z,player=playername,type="P",bkmrkname=S("%s's map"):format(playername)}
       textlist_bkmrks[playername][2]=spawnbkmrk
       i=2
+      noidx = true
       mode="L"
+      --return list,bkmrkidx
     else
       list = compassgps.bookmark_name_pos_dist(spawnbkmrk,playername,playerpos)
       textlist_bkmrks[playername][1]=spawnbkmrk
@@ -344,7 +350,7 @@ function compassgps.bookmark_loop(mode,playername,findidx)
     --now vplayernm,vtype,vbkmrkname are guaranteed to be defined
 
     --admin and shared bookmarks
-    if (mode=="L") and
+    if (mode=="L") and 
        ( (vtype=="A" and view_type_A[playername]=="true") or
          (vtype=="S" and view_type_S[playername]=="true") ) then
       i=i+1
@@ -388,6 +394,13 @@ function compassgps.bookmark_loop(mode,playername,findidx)
   if backwardscompatsave=="YES" then compassgps.write_bookmarks() end
 
   if mode=="L" then
+    if noidx then 
+      local help = {}
+	  bkmrkidx = 0
+	  help = compassgps.split(list)
+	  list = help[1]
+	  
+    end
     return list,bkmrkidx
   --elseif mode=="I" then
   --  return "default" --didn't find it, so return default.
@@ -1331,6 +1344,19 @@ minetest.register_craft({
     {'', 'default:steel_ingot', ''}
   }
 })
+
+function compassgps.split(inputstr, sep)
+        if sep == nil then
+                sep = ","
+        end
+        local t={} 
+	local i=1
+        for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+                t[i] = str
+                i = i + 1
+        end
+        return t
+end
 
 dofile(minetest.get_modpath("compassgps").."/cgpsmap.lua")
 

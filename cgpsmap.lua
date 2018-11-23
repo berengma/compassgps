@@ -101,7 +101,7 @@ minetest.register_craftitem("compassgps:cgpsmap", {
 })
 
 minetest.register_craftitem("compassgps:cgpsmap_marked", {
-	description = "CompassGPS Map (marked)",
+	description = "CompassGPS Map (marked) Left-click to import to your GPS",
 	inventory_image = "cgpsmap-marked.png",
 	groups = {not_in_creative_inventory = 1},
 	stack_max = 1,
@@ -362,3 +362,5 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			end
 		end
 	end)
+
+	
