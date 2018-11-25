@@ -184,9 +184,6 @@ for name,stng in pairs(settings) do
   end
   if settings[name].hud_pos then
     hud_pos[name]=settings[name].hud_pos
-  else
-    hud_pos[playername].x=0.8
-    hud_pos[playername].y=0.96
   end
   if settings[name].hud_color then
     hud_color[name]=settings[name].hud_color
