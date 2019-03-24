@@ -89,7 +89,7 @@ end
 
 function compassgps.sort_by_distance(table,a,b,player)
   --print("sort_by_distance a="..compassgps.pos_to_string(table[a]).." b="..pos_to_string(table[b]))
-  local playerpos = player:getpos()
+  local playerpos = player:get_pos()
   local name=player:get_player_name()
   --return compassgps.distance3d(playerpos,table[a]) < compassgps.distance3d(playerpos,table[b])
   if distance_function[name] then
@@ -273,7 +273,7 @@ end--count_shared
 function compassgps.bookmark_loop(mode,playername,findidx)
   --print("bookmark_loop top")
   local player = minetest.get_player_by_name(playername)
-  local playerpos = player:getpos()
+  local playerpos = player:get_pos()
   local list=""
   local bkmrkidx=1
   local i=1
@@ -660,7 +660,7 @@ function compassgps.set_bookmark(playername, bkmrkname, type, predefinedpos, imp
 		return
 	end
 
-	local pos = player:getpos()
+	local pos = player:get_pos()
 	if predefinedpos ~= nil then
 		pos = predefinedpos
 	end
@@ -1076,7 +1076,7 @@ minetest.register_globalstep(function(dtime)
       --if they don't have a bookmark set, use the default
       point_to[playername]=point_to[playername] or compassgps.get_default_bookmark(playername,1)
       target=point_to[playername] --just to take up less space
-      pos = player:getpos()
+      pos = player:get_pos()
       dir = player:get_look_horizontal()
       local angle_north = 0--math.deg(math.atan2(target.x - pos.x, target.z - pos.z))
       if angle_north < 0 then angle_north = angle_north + 360 end
@@ -1200,7 +1200,7 @@ end--spairs
 
 function compassgps.get_compassgps_formspec(name)
   local player = minetest.get_player_by_name(name)
-  local playerpos = player:getpos()
+  local playerpos = player:get_pos()
   --print("get_compassgps_formspec spawn="..compassgps.pos_to_string(store_spawn[name]))
   --local list = "default "..compassgps.pos_to_string(compassgps.get_default_pos_and_name(name))
   --    .." : "..

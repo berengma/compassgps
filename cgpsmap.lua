@@ -306,6 +306,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 					return nil
 				end
         local bkmrk=textlist_bkmrks[playername][selected_bookmark[playername]]
+	if not bkmrk then return nil end
         local write = { ["bkmrkname"] = bkmrk.bkmrkname,
                         x = bkmrk.x,
                         y = bkmrk.y,
