@@ -846,7 +846,7 @@ function compassgps.teleport_bookmark(playername, bkmrkidx)
   if pos then
       if not pos.import then
 	
-	  player:setpos(textlist_bkmrks[playername][bkmrkidx])
+	  player:set_pos(textlist_bkmrks[playername][bkmrkidx])
 	  
       else
 	
@@ -856,7 +856,7 @@ function compassgps.teleport_bookmark(playername, bkmrkidx)
   
   else
   
-    player:setpos(textlist_bkmrks[playername][bkmrkidx])
+    player:set_pos(textlist_bkmrks[playername][bkmrkidx])
   
   end 
 	
